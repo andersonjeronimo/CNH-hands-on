@@ -4,10 +4,10 @@ import customerRepository from '../repositories/customerRepository';
 
 async function getCustomer(req: Request, res: Response, next: NextFunction) {
     const id = Array.isArray(req.params.id) ? req.params.is[0] : req.params.id;
-    const customer = await customerRepository.getCustomer(parseInt(id));
+    const customer = await customerRepository.getCustomer(id);
 
     if (customer) {
-        res.json(customer);
+        res.status(200).json(customer);
     } else {
         res.sendStatus(404);
     }
@@ -15,7 +15,7 @@ async function getCustomer(req: Request, res: Response, next: NextFunction) {
 
 async function getCustomers(req: Request, res: Response, next: NextFunction) {
     const customers = await customerRepository.getCustomers();
-    res.json(customers);
+    res.status(200).json(customers);
 }
 
 async function postCustomer(req: Request, res: Response, next: NextFunction) {
@@ -24,16 +24,23 @@ async function postCustomer(req: Request, res: Response, next: NextFunction) {
     res.status(201).json(result);
 }
 
+async function putCustomer(req: Request, res: Response, next: NextFunction) {
+    const id = Array.isArray(req.params.id) ? req.params.is[0] : req.params.id;
+    const customerData = req.body as Customer;
+    const result = await customerRepository.putCustomer(id, customerData);
+    res.status(201).json(result);
+}
+
 async function patchCustomer(req: Request, res: Response, next: NextFunction) {
     const id = Array.isArray(req.params.id) ? req.params.is[0] : req.params.id;
     const customerData = req.body as Customer;
-    const result = await customerRepository.updateCustomer(parseInt(id), customerData);
-    res.json(result);
+    const result = await customerRepository.patchCustomer(id, customerData);
+    res.status(200).json(result);
 }
 
 async function deleteCustomer(req: Request, res: Response, next: NextFunction) {
     const id = Array.isArray(req.params.id) ? req.params.is[0] : req.params.id;
-    const result = await customerRepository.deleteCustomer(parseInt(id));
+    const result = await customerRepository.deleteCustomer(id);
     if (result) {
         res.sendStatus(204);
     } else {
@@ -41,4 +48,4 @@ async function deleteCustomer(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export default { getCustomer, getCustomers, postCustomer, patchCustomer, deleteCustomer }
+export default { getCustomer, getCustomers, postCustomer, putCustomer, patchCustomer, deleteCustomer }
