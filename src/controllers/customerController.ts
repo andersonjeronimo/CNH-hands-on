@@ -48,4 +48,11 @@ async function deleteCustomer(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export default { getCustomer, getCustomers, postCustomer, putCustomer, patchCustomer, deleteCustomer }
+/*Webhook*/
+async function handleCustomerStatus(req: Request, res: Response, next: NextFunction) {
+    const { cpf } = req.body;
+    const event = Array.isArray(req.params.event) ? req.params.is[0] : req.params.event;    
+    const result = await customerRepository.patchCustomerStatus(cpf, event);    
+    res.status(200).json(result);}
+
+export default { getCustomer, getCustomers, postCustomer, putCustomer, patchCustomer, deleteCustomer, handleCustomerStatus }

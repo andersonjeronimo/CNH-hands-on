@@ -10,4 +10,8 @@ router.put('/:id', customerController.patchCustomer);
 router.patch('/:id', customerController.patchCustomer);
 router.delete('/:id', customerController.deleteCustomer);
 
+/*Webhooks*/
+//router.post('/subscription_created', customerController.postCustomer);
+router.post('/webhook/:event', customerController.handleCustomerStatus);
+
 export default router;

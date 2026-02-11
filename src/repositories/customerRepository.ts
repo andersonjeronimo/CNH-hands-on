@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 const FILE_PATH = path.join(__dirname, 'customers.json');
 import * as crypto from 'crypto';
+import Status from "../utils/utils";
 
 function generateUuid(): string {
     return crypto.randomUUID();
@@ -32,7 +33,7 @@ async function addCustomer(customer: Customer): Promise<Customer> {
             return reject(new Error(`Invalid customer.`));
         }
         const userId = generateUuid();
-        const newCustomer = new Customer(userId, customer.name, customer.cpf);
+        const newCustomer = new Customer(userId, customer.name, customer.cpf, customer.phone, Status.Pausado);
         customers.push(newCustomer);
         fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
         return resolve(newCustomer);
@@ -45,14 +46,10 @@ async function putCustomer(id: string, customerData: Customer): Promise<Customer
         const index = customers.findIndex(c => c.id === id);
         if (index === -1) {
             return reject(new Error(`Customer not found.`));
-        }        
+        }
 
         customerData.id = customers[index].id;
         customers[index] = customerData;
-        //let key: keyof Customer;
-        //for (key in customers[index]) {            
-        //        customers[index][key] = customerData[key];              
-        //}        
         fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
         return resolve(customers[index]);
     })
@@ -64,18 +61,53 @@ async function patchCustomer(id: string, customerData: Customer): Promise<Custom
         const index = customers.findIndex(c => c.id === id);
         if (index === -1) {
             return reject(new Error(`Customer not found.`));
-        }        
-
+        }
         customerData.id = customers[index].id;
         let key: keyof Customer;
         for (key in customers[index]) {
             if (customerData[key]) {
-                customers[index][key] = customerData[key];                
-            }  
-        }        
-        
+                customers[index][key] = customerData[key];
+            }
+        }
         fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
         return resolve(customers[index]);
+    })
+}
+
+async function patchCustomerStatus(cpf: string, event: string): Promise<Customer | undefined> {
+    const customers = await getCustomers();
+    return new Promise((resolve, reject) => {
+        const index = customers.findIndex(c => c.cpf === cpf);
+        if (index === -1) {
+            return reject(new Error(`Customer not found.`));
+        }
+        switch (event) {
+            case "payment_succeeded":
+                customers[index].status = Status.Ativo;
+                break;
+
+            case "payment_failed":
+                customers[index].status = Status.Pausado;
+                break;
+
+            case "subscription_cancelled":
+                customers[index].status = Status.Inativo;
+                break;
+
+            default:
+                break;
+        }
+        fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
+        return resolve(customers[index]);
+
+        /*
+        Eventos:
+            ✅ subscription_created
+            ✅ payment_succeeded
+            ✅ payment_failed
+            ✅ subscription_cancelled
+        */
+
     })
 }
 
@@ -98,5 +130,6 @@ export default {
     addCustomer,
     putCustomer,
     patchCustomer,
+    patchCustomerStatus,
     deleteCustomer
 }
