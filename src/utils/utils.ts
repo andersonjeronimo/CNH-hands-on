@@ -1,7 +1,16 @@
-enum Status {
+export enum Status {
     Ativo = "active",
     Inativo = "inactive",
     Pausado = "paused"
 }
 
-export default Status;
+export enum Category {
+    A = "a",
+    B = "b",
+    AB = "a/b"
+}
+
+export enum Vehicle { 
+    Proprio = "owned",
+    Nao = "borrowed"
+}

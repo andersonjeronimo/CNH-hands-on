@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td,
+            th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main>
+
+        <div class="jumbotron">
+            <h1>This is great</h1>
+            <p>Welcome to CNH Hands On Page</p>
+            <h3>
+                <%= titulo %>
+            </h3>
+            <table>
+                <tr>
+                    <!-- <th>ID</th> -->
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>CPF</th>
+                    <th>Status</th>
+                </tr>
+                <% items.forEach(item=> { %>
+                    <tr>
+                        <!-- <td>
+                                    <%= item.id %>
+                                </td> -->
+                        <td>
+                            <%= item.name %>
+                        </td>
+                        <td>
+                            <%= item.phone %>
+                        </td>
+                        <td>
+                            <%= item.cpf %>
+                        </td>
+                        <td>
+                            <%= item.status %>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </table>
+        </div>
+
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>
