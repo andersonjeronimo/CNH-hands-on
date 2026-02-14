@@ -3,24 +3,6 @@
 
 <head>
     <%- include('../partials/head'); %>
-        <style>
-            table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            td,
-            th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
-
-            tr:nth-child(even) {
-                background-color: #dddddd;
-            }
-        </style>
 </head>
 
 <body class="container">
@@ -31,40 +13,42 @@
 
     <main>
 
-        <div class="jumbotron">
-            <h1>This is great</h1>
-            <p>Welcome to CNH Hands On Page</p>
-            <h3>
-                <%= titulo %>
-            </h3>
-            <table>
-                <tr>
-                    <!-- <th>ID</th> -->
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>CPF</th>
-                    <th>Status</th>
-                </tr>
-                <% items.forEach(item=> { %>
+        <div class="container">           
+
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <!-- <td>
-                                    <%= item.id %>
-                                </td> -->
-                        <td>
-                            <%= item.name %>
-                        </td>
-                        <td>
-                            <%= item.phone %>
-                        </td>
-                        <td>
-                            <%= item.cpf %>
-                        </td>
-                        <td>
-                            <%= item.status %>
-                        </td>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">CPF</th>
+                        <th scope="col">Status</th>
                     </tr>
-                    <% }) %>
+                </thead>
+                <tbody>
+                    <% items.forEach(item=> { %>
+                        <tr>
+                            <th scope="row">
+                                <%= item.id %>
+                            </th>                            
+                            <td>
+                                <%= item.name %>
+                            </td>
+                            <td>
+                                <%= item.phone %>
+                            </td>
+                            <td>
+                                <%= item.cpf %>
+                            </td>
+                            <td>
+                                <%= item.status %>
+                            </td>
+                        </tr>
+                        <% }) %>
+
+                </tbody>
             </table>
+
         </div>
 
     </main>

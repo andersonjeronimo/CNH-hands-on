@@ -3,87 +3,36 @@
 
 <head>
     <%- include('../partials/head'); %>
-        <style>
-            table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            td,
-            th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
-
-            tr:nth-child(even) {
-                background-color: #dddddd;
-            }
-        </style>
 </head>
 
 <body class="container">
 
-    <header>
+    <!-- <header>
         <%- include('../partials/header'); %>
-    </header>
-
+    </header> -->
     <main>
+        <div class="container">
+            <img src="/images/logo.png" class="img-fluid" alt="CNH na mao logo" width="50%">
+            <form action="/form2" method="GET">
+                <legend>Selecione o Estado (UF)</legend>
 
-        <div class="jumbotron">
-            <h1>This is great</h1>
-            <p>Welcome to CNH Hands On Page</p>
-            <h3>
-                <%= titulo %>
-            </h3>
-            <form action="/form2" method="GET">         
+                <div class="mb-3">
+                    <select name="state" id="state" class="form-control form-control-lg">
+                        <% uf.forEach(item=> { %>
+                            <option value="<%= item.id %>">
+                                <%= item.nome %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
 
-                <label>State:</label>
-                <!-- <input type="text" name="state" value="<%= typeof state !== 'undefined' ? state : '' %>"> -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Continuar</button>
+                </div>
 
-                <select name="state" id="state">
-                    <option value="">Select state</option>
-                    <% uf.forEach(item=> { %>
-
-                        <option value="<%= item.id %>">
-                            <%= item.nome %>
-                        </option>
-
-                        <% }) %>
-                </select>                
-
-                <button type="submit">Continuar</button>
             </form>
         </div>
-
-
-        <table>
-            <tr>
-                <!-- <th>ID</th> -->
-                <th>Id</th>
-                <th>Sigla</th>
-                <th>Nome</th>
-            </tr>
-            <% uf.forEach(item=> { %>
-                <tr>
-                    <!-- <td>
-                                    <%= item.id %>
-                                </td> -->
-                    <td>
-                        <%= item.id %>
-                    </td>
-                    <td>
-                        <%= item.sigla %>
-                    </td>
-                    <td>
-                        <%= item.nome %>
-                    </td>
-                </tr>
-                <% }) %>
-        </table>
     </main>
-
     <footer>
         <%- include('../partials/footer'); %>
     </footer>
@@ -91,54 +40,3 @@
 </body>
 
 </html>
-
-<!-- <script>
-    // Using vanilla JavaScript
-    document.getElementById("state").addEventListener('change', (event) => {
-        let selectedStateValue = event.target.value;
-        console.log("Selected value: " + selectedStateValue);
-        // Call a function to perform an action, like making an AJAX call
-    });   
-</script> -->
-
-<script>
-
-
-    function _(element) {
-        return document.getElementById(element);
-    }
-
-    function fetch_data(parent_element, child_element, type) {
-        fetch('ibge/get_data?type=' + type + '&parent_value=' + parent_element.value + '').then(function (response) {
-            return response.json();
-        }).then(function (responseData) {
-
-            var html = '';
-
-            if (type == 'load_state') {
-                html = '<option value="">Select State</option>';
-            }
-
-            if (type == 'load_city') {
-                html = '<option value="">Select City</option>';
-            }
-
-            for (var count = 0; count < responseData.length; count++) {
-                html += '<option value="' + responseData[count] + '">' + responseData[count] + '</option>';
-            }
-
-            child_element.innerHTML = html;
-        });
-    }
-
-    _('country').onchange = function () {
-
-        fetch_data(_('country'), _('state'), 'load_state');
-
-    };
-
-    _('state').onchange = function () {
-        fetch_data(_('state'), _('city'), 'load_city');
-    };
-
-</script>

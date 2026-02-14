@@ -4,6 +4,8 @@ import path from 'path';
 const FILE_PATH = path.join(__dirname, 'customers.json');
 import * as crypto from 'crypto';
 import {Status} from "../utils/utils";
+import {Vehicle} from "../utils/utils";
+import {Category} from "../utils/utils";
 
 function generateUuid(): string {
     return crypto.randomUUID();
@@ -34,7 +36,7 @@ async function addCustomer(customer: Customer): Promise<Customer> {
             return reject(new Error(`Invalid customer.`));
         }
         const userId = generateUuid();
-        const newCustomer = new Customer(userId, customer.name, customer.email, customer.phone, customer.cpf, Status.Pausado, customer.category, customer.vehicle, customer.state, customer.city);
+        const newCustomer = new Customer(userId, customer.name, customer.email, customer.phone, customer.cpf, Status.Pausado, Category.A, Vehicle.Proprio, customer.state, customer.city);
         customers.push(newCustomer);
         fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
         return resolve(newCustomer);

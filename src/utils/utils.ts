@@ -7,10 +7,11 @@ export enum Status {
 export enum Category {
     A = "a",
     B = "b",
-    AB = "a/b"
+    AB = "both"
 }
 
 export enum Vehicle { 
     Proprio = "owned",
-    Nao = "borrowed"
+    Aluno = "student",
+    Ambos = "both"
 }
