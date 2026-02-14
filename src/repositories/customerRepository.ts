@@ -7,6 +7,11 @@ import {Status} from "../utils/utils";
 import {Vehicle} from "../utils/utils";
 import {Category} from "../utils/utils";
 
+import connect from "../db";
+
+const client = connect("mongodb://127.0.0.1", "cnhnamao"); 
+
+
 function generateUuid(): string {
     return crypto.randomUUID();
 }
