@@ -4,7 +4,6 @@ import path from 'path';
 const FILE_PATH = path.join(__dirname, 'customers.json');
 import * as crypto from 'crypto';
 import {Status} from "../utils/utils";
-import {Vehicle} from "../utils/utils"
 
 function generateUuid(): string {
     return crypto.randomUUID();
@@ -13,7 +12,8 @@ function generateUuid(): string {
 async function getCustomers(): Promise<Customer[]> {
     return new Promise((resolve, reject) => {
         if (fs.existsSync(FILE_PATH)) {
-            return resolve(require(FILE_PATH));
+            const data = fs.readFileSync(FILE_PATH, 'utf8');
+            return resolve(JSON.parse(data));
         } else {
             return resolve([]);
         }

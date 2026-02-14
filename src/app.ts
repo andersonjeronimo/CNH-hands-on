@@ -6,6 +6,7 @@ import path from 'path';
 
 import pagesRouter from './routers/pagesRouter';
 import apiRouter from './routers/apiRouter';
+import ibgeRouter from './routers/ibgeRouter';
 
 const app = express();
 
@@ -23,7 +24,10 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(express.urlencoded({ extended: true }));
 
 // pages
-app.use('/', pagesRouter)
+app.use('/', pagesRouter);
+
+// IBGE
+app.use('/ibge', ibgeRouter);
 
 // API
 app.use('/customers', apiRouter);

@@ -5,7 +5,8 @@ const router = express.Router();
 
 //router.get('/:id', customerController.getCustomer);
 router.get('/', pagesController.homePage);
-router.get('/form', pagesController.formPage);
+router.get('/form1', pagesController.formPage1);
+router.get('/form2', pagesController.formPage2);
 router.post('/submit', pagesController.submitPage)
 router.get('/list', pagesController.listPage);
 router.get('/about', pagesController.aboutPage);

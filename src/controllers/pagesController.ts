@@ -1,38 +1,35 @@
-import { Request, Response, NextFunction, request } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import Customer from '../models/customer';
 import customerRepository from '../repositories/customerRepository';
+import axios from 'axios';
 
-// index page
-//app.get('/', function (req, res) {
-//  res.render('pages/index');
-//});
-//
-//// form page
-//app.get('/form', function (req, res) {
-//  res.render('pages/form', {titulo:'Formulário'});
-//});
-//
-//// submit page
-//app.post('/submit', function (req, res) {
-//  res.render('pages/list', {titulo:'Cadastrados'});  
-//});
-//
-//// list page
-//app.get('/list', function (req, res) {
-//  res.render('pages/list', {titulo:'Cadastrados'});
-//});
-//
-//// about page
-//app.get('/about', function (req, res) {
-//  res.render('pages/about');
-//});
+import fs from 'fs';
+import path from 'path';
+const FILE_PATH = path.join(__dirname, '../utils/estados.json');
 
 async function homePage(req: Request, res: Response, next: NextFunction) {
     res.render('pages/index');
 }
 
-async function formPage(req: Request, res: Response, next: NextFunction) {
-    res.render('pages/form', { titulo: 'Form' });
+async function formPage1(req: Request, res: Response, next: NextFunction) {
+    if (fs.existsSync(FILE_PATH)) {
+        const data = fs.readFileSync(FILE_PATH, 'utf8');
+        res.render('pages/form1', { titulo: 'Form1', uf: JSON.parse(data) });
+    } else {
+        res.render('pages/form1', { titulo: 'Form1', uf: [] });
+    }
+}
+
+async function formPage2(req: Request, res: Response, next: NextFunction) {
+    const state = req.query.state;
+    try {
+        const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios?orderBy=nome`);        
+        res.render('pages/form2', { titulo: 'Form2', cities: response.data });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error fetching data from IBGE API');
+    }   
+
 }
 
 async function listPage(req: Request, res: Response, next: NextFunction) {
@@ -51,4 +48,4 @@ async function aboutPage(req: Request, res: Response, next: NextFunction) {
     res.render('pages/about');
 }
 
-export default { homePage, formPage, submitPage, listPage, aboutPage }
+export default { homePage, formPage1, formPage2, submitPage, listPage, aboutPage }
