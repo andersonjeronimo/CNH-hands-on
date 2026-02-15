@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import Customer from '../models/customer';
+import { Status } from "../utils/utils";
+import { Vehicle } from "../utils/utils";
+import { Category } from "../utils/utils";
 import customerRepository from '../repositories/customerRepository';
 import axios from 'axios';
 
@@ -23,12 +26,12 @@ async function formPage1(req: Request, res: Response, next: NextFunction) {
 async function formPage2(req: Request, res: Response, next: NextFunction) {
     const state = req.query.state;
     try {
-        const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios?orderBy=nome`);        
-        res.render('pages/form2', { titulo: 'Form2', cities: response.data });
+        const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios?orderBy=nome`);
+        res.render('pages/form2', { cities: response.data, status: Status, vehicle: Vehicle, category: Category });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data from IBGE API');
-    }   
+    }
 
 }
 
@@ -40,8 +43,9 @@ async function listPage(req: Request, res: Response, next: NextFunction) {
 
 async function submitPage(req: Request, res: Response, next: NextFunction) {
     const customer = req.body as Customer;
-    const result = await customerRepository.addCustomer(customer);
-    res.render('pages/submit', { name: result.name });
+    //const result = await customerRepository.addCustomer(customer);
+    const result = await customerRepository.insertCustomer(customer);
+    res.render('pages/submit', { name: customer.name, result: result });
 }
 
 async function aboutPage(req: Request, res: Response, next: NextFunction) {

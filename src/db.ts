@@ -9,6 +9,8 @@ async function connect(url: string, database: string) {
 
 export default connect;
 
+//https://www.mongodb.com/pt-br/docs/drivers/node/current/crud/insert/
+
 //https://www.mongodb.com/pt-br/docs/v8.0/tutorial/install-mongodb-on-ubuntu/
 
 //sudo service mongod start   || sudo systemctl start mongod

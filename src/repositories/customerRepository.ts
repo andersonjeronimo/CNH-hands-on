@@ -1,15 +1,49 @@
 import Customer from '../models/customer';
+import * as crypto from 'crypto';
+import { Status } from "../utils/utils";
+import { Vehicle } from "../utils/utils";
+import { Category } from "../utils/utils";
+
 import fs from 'fs';
 import path from 'path';
 const FILE_PATH = path.join(__dirname, 'customers.json');
-import * as crypto from 'crypto';
-import {Status} from "../utils/utils";
-import {Vehicle} from "../utils/utils";
-import {Category} from "../utils/utils";
 
-import connect from "../db";
+import { MongoClient } from "mongodb";
 
-const client = connect("mongodb://127.0.0.1", "cnhnamao"); 
+//https://www.mongodb.com/pt-br/docs/drivers/node/current/crud/insert/
+
+const uri = 'mongodb://127.0.0.1';
+const dbName = 'cnh';
+const collection = 'customers';
+
+async function findCustomer(query: {}) {
+    let document;
+    const client = new MongoClient(uri);
+    try {
+        const database = client.db(dbName);
+        const customers = database.collection(collection);
+        //const query = { name: 'Anderson' };
+        document = await customers.findOne(query);
+        console.log(`A document was found with the _id: ${document?._id}`);
+    } finally {
+        await client.close();
+    }
+    return document?._id;
+}
+
+async function insertCustomer(doc: Customer) {
+    let document;
+    const client = new MongoClient(uri);
+    try {
+        const database = client.db(dbName);
+        const customers = database.collection(collection);
+        document = await customers.insertOne(doc);
+        console.log(`A document was inserted with the _id: ${document.insertedId}`);
+    } finally {        
+        await client.close();
+    }
+    return document.insertedId;
+}
 
 
 function generateUuid(): string {
@@ -133,6 +167,8 @@ async function deleteCustomer(id: string): Promise<boolean> {
 }
 
 export default {
+    findCustomer,
+    insertCustomer,
     getCustomer,
     getCustomers,
     addCustomer,
