@@ -1,17 +1,17 @@
 export enum Status {
-    Ativo = "active",
-    Inativo = "inactive",
-    Pausado = "paused"
+    Ativo = "Ativo",
+    Inativo = "Inativo",
+    Pausado = "Pausado"
 }
 
 export enum Category {
-    A = "a",
-    B = "b",
-    AB = "both"
+    A = "A",
+    B = "B",
+    AB = "A e B"
 }
 
 export enum Vehicle { 
-    Proprio = "owned",
-    Aluno = "student",
-    Ambos = "both"
+    Proprio = "Próprio",
+    Aluno = "Terceiros",
+    Ambos = "Próprio / Terceiros"
 }

@@ -17,22 +17,26 @@
 
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th scope="col">ID</th>
+                    <tr>                        
                         <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Telefone</th>
                         <th scope="col">CPF</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Veículo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Cidade</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% items.forEach(item=> { %>
                         <tr>
                             <th scope="row">
-                                <%= item.id %>
+                                <%= item.name %>
                             </th>                            
                             <td>
-                                <%= item.name %>
+                                <%= item.email %>
                             </td>
                             <td>
                                 <%= item.phone %>
@@ -42,6 +46,18 @@
                             </td>
                             <td>
                                 <%= item.status %>
+                            </td>
+                            <td>
+                                <%= item.category %>
+                            </td>
+                            <td>
+                                <%= item.vehicle %>
+                            </td>
+                            <td>
+                                <%= item.state %>
+                            </td>
+                            <td>
+                                <%= item.city %>
                             </td>
                         </tr>
                         <% }) %>

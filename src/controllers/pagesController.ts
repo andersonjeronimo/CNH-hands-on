@@ -36,8 +36,7 @@ async function formPage2(req: Request, res: Response, next: NextFunction) {
 }
 
 async function listPage(req: Request, res: Response, next: NextFunction) {
-    const customers = await customerRepository.getCustomers();
-    console.log(customers);
+    const customers = await customerRepository.findCustomers();    
     res.render('pages/list', { titulo: 'List', items: customers });
 }
 

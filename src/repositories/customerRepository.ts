@@ -1,4 +1,5 @@
 import Customer from '../models/customer';
+import ICustomer from '../models/customer.interface';
 import * as crypto from 'crypto';
 import { Status } from "../utils/utils";
 import { Vehicle } from "../utils/utils";
@@ -12,23 +13,38 @@ import { MongoClient } from "mongodb";
 
 //https://www.mongodb.com/pt-br/docs/drivers/node/current/crud/insert/
 
-const uri = 'mongodb://127.0.0.1';
-const dbName = 'cnh';
-const collection = 'customers';
+//const uri = 'mongodb://127.0.0.1';
+//const dbName = 'cnh';
+//const collectionName = 'customers';
 
 async function findCustomer(query: {}) {
     let document;
     const client = new MongoClient(uri);
     try {
         const database = client.db(dbName);
-        const customers = database.collection(collection);
-        //const query = { name: 'Anderson' };
-        document = await customers.findOne(query);
-        console.log(`A document was found with the _id: ${document?._id}`);
+        const collection = database.collection(collectionName);
+        document = await collection.findOne<ICustomer>(query);        
     } finally {
         await client.close();
     }
     return document?._id;
+}
+
+const uri = 'mongodb://127.0.0.1';
+const dbName = 'cnh';
+const collectionName = 'customers';
+
+async function findCustomers() {
+    let document;
+    const client = new MongoClient(uri);
+    try {
+        const database = client.db(dbName);
+        const collection = database.collection(collectionName);
+        document = await collection.find().toArray();
+    } finally {
+        await client.close();
+    }
+    return document;
 }
 
 async function insertCustomer(doc: Customer) {
@@ -36,10 +52,11 @@ async function insertCustomer(doc: Customer) {
     const client = new MongoClient(uri);
     try {
         const database = client.db(dbName);
-        const customers = database.collection(collection);
+        const customers = database.collection(collectionName);
+        doc.status = Status.Pausado;
         document = await customers.insertOne(doc);
         console.log(`A document was inserted with the _id: ${document.insertedId}`);
-    } finally {        
+    } finally {
         await client.close();
     }
     return document.insertedId;
@@ -50,18 +67,7 @@ function generateUuid(): string {
     return crypto.randomUUID();
 }
 
-async function getCustomers(): Promise<Customer[]> {
-    return new Promise((resolve, reject) => {
-        if (fs.existsSync(FILE_PATH)) {
-            const data = fs.readFileSync(FILE_PATH, 'utf8');
-            return resolve(JSON.parse(data));
-        } else {
-            return resolve([]);
-        }
-    })
-}
-
-async function getCustomer(id: string): Promise<Customer | undefined> {
+/* async function getCustomer(id: string): Promise<Customer | undefined> {
     const customers = await getCustomers();
     return new Promise((resolve, reject) => {
         return resolve(customers.find(c => c.id === id));
@@ -75,7 +81,7 @@ async function addCustomer(customer: Customer): Promise<Customer> {
             return reject(new Error(`Invalid customer.`));
         }
         const userId = generateUuid();
-        const newCustomer = new Customer(userId, customer.name, customer.email, customer.phone, customer.cpf, Status.Pausado, Category.A, Vehicle.Proprio, customer.state, customer.city);
+        const newCustomer = new Customer(customer.name, customer.email, customer.phone, customer.cpf, Status.Pausado, Category.A, Vehicle.Proprio, customer.state, customer.city);
         customers.push(newCustomer);
         fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
         return resolve(newCustomer);
@@ -142,13 +148,13 @@ async function patchCustomerStatus(cpf: string, event: string): Promise<Customer
         fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
         return resolve(customers[index]);
 
-        /*
-        Eventos:
-            ✅ subscription_created
-            ✅ payment_succeeded
-            ✅ payment_failed
-            ✅ subscription_cancelled
-        */
+        
+        //Eventos:
+        //    ✅ subscription_created
+        //    ✅ payment_succeeded
+        //    ✅ payment_failed
+        //    ✅ subscription_cancelled
+        
 
     })
 }
@@ -164,16 +170,16 @@ async function deleteCustomer(id: string): Promise<boolean> {
         fs.writeFileSync(FILE_PATH, JSON.stringify(customers));
         return resolve(true);
     })
-}
+} */
 
 export default {
     findCustomer,
+    findCustomers,
     insertCustomer,
-    getCustomer,
-    getCustomers,
-    addCustomer,
-    putCustomer,
-    patchCustomer,
-    patchCustomerStatus,
-    deleteCustomer
+    //getCustomer,    
+    //addCustomer,
+    //putCustomer,
+    //patchCustomer,
+    //patchCustomerStatus,
+    //deleteCustomer
 }

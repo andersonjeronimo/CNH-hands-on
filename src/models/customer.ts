@@ -1,5 +1,4 @@
-export default class Customer {
-    id: string;
+export default class Customer {    
     name: string;
     email: string;
     phone: string;
@@ -10,8 +9,7 @@ export default class Customer {
     state: string;
     city: string;
 
-    constructor(id: string, name: string, email: string, phone: string, cpf: string, status: string, category: string, vehicle: string, state: string, city: string) {
-        this.id = id;
+    constructor(name: string, email: string, phone: string, cpf: string, status: string, category: string, vehicle: string, state: string, city: string) {        
         this.name = name;
         this.email = email;
         this.phone = phone;
