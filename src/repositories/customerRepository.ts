@@ -5,7 +5,7 @@ import Customer from '../models/customer';
 import { MongoClient } from "mongodb";
 
 //Webhook Mercado Pago
-import { Status } from "../utils/utils";
+import { Status } from "../public/utils/utils";
 
 //https://www.mongodb.com/pt-br/docs/drivers/node/current/crud/insert/
 

@@ -4,13 +4,12 @@ dotenv.config();
 import { Request, Response, NextFunction } from 'express';
 import Customer from '../models/customer';
 import customerRepository from '../repositories/customerRepository';
-import { Status, Vehicle, Category } from "../utils/utils";
+import { Status, Vehicle, Category } from "../public/utils/utils";
 import axios from 'axios';
 
 import fs from 'fs';
 import path from 'path';
-const FILE_PATH = path.join(__dirname, '../utils/estados.json');
-//const FILE_PATH_DDD = path.join(__dirname, '../utils/ddd_estados.json');
+const FILE_PATH = path.join(__dirname, '../public/utils/estados.json');
 
 async function homePage(req: Request, res: Response, next: NextFunction) {
     res.render('pages/index');
@@ -80,8 +79,8 @@ async function filterCustomersPage(req: Request, res: Response, next: NextFuncti
 
 async function submitPage(req: Request, res: Response, next: NextFunction) {
     const customer = req.body as Customer;
-    const result = await customerRepository.insertCustomer(customer);
-    res.render('pages/submit', { name: customer.firstname, result: result });
+    const id = await customerRepository.insertCustomer(customer);
+    res.render('pages/submit', { customer: customer, result: id });
 }
 
 async function aboutPage(req: Request, res: Response, next: NextFunction) {
