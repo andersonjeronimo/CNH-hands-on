@@ -2,7 +2,7 @@ import { Request, Response, NextFunction, request } from 'express';
 import Customer from '../models/customer';
 import customerRepository from '../repositories/customerRepository';
 
-async function getCustomer(req: Request, res: Response, next: NextFunction) {
+/* async function getCustomer(req: Request, res: Response, next: NextFunction) {
     const id = Array.isArray(req.params.id) ? req.params.is[0] : req.params.id;
     const customer = await customerRepository.getCustomer(id);
 
@@ -47,12 +47,13 @@ async function deleteCustomer(req: Request, res: Response, next: NextFunction) {
         res.sendStatus(404);
     }
 }
-
+ */
 /*Webhook*/
 async function handleCustomerStatus(req: Request, res: Response, next: NextFunction) {
     const { cpf } = req.body;
-    const event = Array.isArray(req.params.event) ? req.params.is[0] : req.params.event;    
-    const result = await customerRepository.patchCustomerStatus(cpf, event);    
-    res.status(200).json(result);}
+    const event = Array.isArray(req.params.event) ? req.params.is[0] : req.params.event;
+    const result = await customerRepository.updateCustomerStatus(cpf, event);
+    res.status(200).json(result);
+}
 
-export default { getCustomer, getCustomers, postCustomer, putCustomer, patchCustomer, deleteCustomer, handleCustomerStatus }
+export default { handleCustomerStatus }

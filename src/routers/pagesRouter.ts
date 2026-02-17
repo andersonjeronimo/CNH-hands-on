@@ -5,10 +5,13 @@ const router = express.Router();
 
 //router.get('/:id', customerController.getCustomer);
 router.get('/', pagesController.homePage);
-router.get('/form1', pagesController.formPage1);
-router.get('/form2', pagesController.formPage2);
+router.get('/pre_cadastro', pagesController.preRegisterPage);
+router.get('/cadastro', pagesController.registerPage);
+router.get('/pre_busca', pagesController.preSearchPage);
+router.get('/busca', pagesController.searchPage);
+router.get('/instrutores', pagesController.customersPage);
+router.post('/filtro_instrutores', pagesController.filterCustomersPage);
 router.post('/submit', pagesController.submitPage)
-router.get('/list', pagesController.listPage);
 router.get('/about', pagesController.aboutPage);
 
 //router.post('/', pagesController.postCustomer);

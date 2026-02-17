@@ -12,100 +12,67 @@
     </header> -->
     <main>
         <div class="container">
-
-            <img src="/images/logo.png" class="img-fluid" alt="CNH na mao logo" width="50%">
-
-            <form action="/submit" method="POST">                
-
-                <div class="mb-3">
-
-                    <label for="name" class="form-label">Nome</label>
-                    <input type="text" class="form-control form-control-lg" name="name" id="name"
-                        placeholder="">
-                </div>
-
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control form-control-lg" name="email" id="email"
-                        placeholder="">
-                </div>
-
-                <div class="mb-3">
-                    <label for="phone" class="form-label">WhatsApp</label>
-                    <input type="text" class="form-control form-control-lg" name="phone" id="phone"
-                        placeholder="">
-                </div>
-
-                <div class="mb-3">
-                    <label for="cpf" class="form-label">CPF</label>
-                    <input type="text" class="form-control form-control-lg" name="cpf" id="cpf"
-                        placeholder="">
-                </div>
-
-
-
+            <img src="/images/logo-glass-2.png" class="img-fluid" alt="CNH na mao logo com lupa" width="50%">
+            <form action="/filtro_instrutores" method="POST">
                 <div class="mb-3">
                     <label for="category" class="form-label">Categoria</label>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="<%= category.A %>" name="category" id="category" checked>
+                        <input class="form-check-input" type="radio" value="<%= category.A %>" name="category"
+                            id="category" checked>
                         <label class="form-check-label" for="category">
                             "A" (Moto)
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="<%= category.B %>" name="category" id="category">
+                        <input class="form-check-input" type="radio" value="<%= category.B %>" name="category"
+                            id="category">
                         <label class="form-check-label" for="category">
                             "B" (Carro)
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="<%= category.AB %>" name="category" id="category">
+                        <input class="form-check-input" type="radio" value="<%= category.AB %>" name="category"
+                            id="category">
                         <label class="form-check-label" for="category">
                             "A" e "B" (Carro e moto)
                         </label>
                     </div>
                 </div>
-
-
-
                 <div class="mb-3">
                     <label for="vehicle" class="form-label">Veículo</label>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="<%= vehicle.Proprio %>" name="vehicle" id="vehicle" checked>
+                        <input class="form-check-input" type="radio" value="<%= vehicle.Proprio %>" name="vehicle"
+                            id="vehicle" checked>
                         <label class="form-check-label" for="vehicle">
-                            Veículo próprio
+                            Aulas no veículo do instrutor
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="<%= vehicle.Aluno %>" name="vehicle" id="vehicle">
+                        <input class="form-check-input" type="radio" value="<%= vehicle.Aluno %>" name="vehicle"
+                            id="vehicle">
                         <label class="form-check-label" for="vehicle">
-                            Veículo do aluno
+                            Aulas no meu veículo
                         </label>
                     </div>
-
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="<%= vehicle.Ambos %>" name="vehicle" id="vehicle">
+                        <input class="form-check-input" type="radio" value="<%= vehicle.Ambos %>" name="vehicle"
+                            id="vehicle">
                         <label class="form-check-label" for="vehicle">
-                            Veículo próprio ou do aluno (a combinar)
+                            Aulas no veículo do instrutor e/ou no meu veículo (a combinar)
                         </label>
                     </div>
-
                 </div>
-
                 <div class="mb-3">
-                    <label>Estado selecionado:</label>
+                    <label for="state" class="form-label">Estado selecionado:</label>
                     <input class="form-control" type="text" name="state"
                         value="<%= cities[0].microrregiao.mesorregiao.UF.nome %>"
                         aria-label="<%= cities[0].microrregiao.mesorregiao.UF.nome %>" readonly>
                 </div>
-
                 <div class="mb-3">
-                    <a class="btn btn-primary" href="/form1" role="button">Alterar Estado (UF)</a>
+                    <a class="btn btn-primary" href="/pre_busca" role="button">Alterar Estado (UF)</a>
                 </div>
-
                 <div class="mb-3">
+                    <label for="city" class="form-label">Cidade</label>
                     <select name="city" id="city" class="form-control">
                         <option value="">Selecione a cidade</option>
                         <% cities.forEach(item=> { %>
@@ -116,16 +83,14 @@
                     </select>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                    <button type="submit" class="btn btn-success">Buscar Instrutor</button>
                 </div>
             </form>
         </div>
     </main>
-
     <footer>
         <%- include('../partials/footer'); %>
     </footer>
-
 </body>
 
 </html>

@@ -9,13 +9,9 @@ import apiRouter from './routers/apiRouter';
 import ibgeRouter from './routers/ibgeRouter';
 
 const app = express();
-
 app.use(morgan('tiny'));
-
 app.use(cors());
-
 app.use(helmet());
-
 app.use(express.json());
 
 // view engine setup
@@ -27,10 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // pages
 app.use('/', pagesRouter);
-
 // IBGE
 app.use('/ibge', ibgeRouter);
-
 // API
 app.use('/customers', apiRouter);
 

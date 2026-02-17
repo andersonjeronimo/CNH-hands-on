@@ -1,7 +1,8 @@
 import { ObjectId } from 'mongodb';
 export default interface ICustomer {
     _id: ObjectId;
-    name: string;
+    firstname: string;
+    lastname: string;
     email: string;
     phone: string;
     cpf: string;

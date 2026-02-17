@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <main>
+        <div class="container">
+            <img src="/images/logo.png" class="img-fluid" alt="CNH na mao logo" width="50%">
+
+
+            <form action="/submit" method="POST" class="row g-3">
+                <div class="col-md-4">
+                    <label for="firstname" class="form-label">Nome</label>
+                    <input type="text" class="form-control" name="firstname" id="firstname" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="lastname" class="form-label">Sobrenome</label>
+                    <input type="text" class="form-control" name="lastname" id="lastname" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="email">@</span>
+                        <input type="email" class="form-control" name="email" id="email" aria-describedby="email"
+                            required>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="city" class="form-label">Cidade</label>
+                    <select name="city" id="city" class="form-select" required>
+                        <option selected disabled value="">Selecione a cidade</option>
+                        <% cities.forEach(item=> { %>
+                            <option value="<%= item.nome %>">
+                                <%= item.nome %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">Whatsapp</label>
+                    <select name="phone" id="phone" class="form-select" required>
+                        <option selected disabled value="">DDD</option>
+                        <% state.ddd.forEach((cod)=> { %>
+                            <option value="<%= cod %>">
+                                <%= cod %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="validationDefault05" class="form-label">Zip</label>
+                    <input type="text" class="form-control" id="validationDefault05" required>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                        <label class="form-check-label" for="invalidCheck2">
+                            Agree to terms and conditions
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Submit form</button>
+                </div>
+            </form>
+
+
+        </div>
+    </main>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+
+</html>
