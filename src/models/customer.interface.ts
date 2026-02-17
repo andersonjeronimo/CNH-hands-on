@@ -4,6 +4,7 @@ export default interface ICustomer {
     firstname: string;
     lastname: string;
     email: string;
+    ddd:string;
     phone: string;
     cpf: string;
     status: string;

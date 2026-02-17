@@ -7,17 +7,20 @@
 
 <body class="container">
 
-    <header>
+    <!-- <header>
         <%- include('../partials/header'); %>
-    </header>
+    </header> -->
     <main>
         <div class="container">
+            <hr>
             <img src="/images/logo.png" class="img-fluid" alt="CNH na mao logo" width="50%">
-            <form action="/cadastro" method="GET">
-                <legend>Selecione o Estado (UF)</legend>
+            <hr>
+            <form action="/cadastro" method="GET" class="row g-3">               
 
-                <div class="mb-3">
-                    <select name="state" id="state" class="form-control form-control-lg">
+                <div class="col-md-12">
+                    <label for="state" class="form-label">Estado</label>
+                    <select name="state" id="state" class="form-select" required>
+                        <option selected disabled value="">Selecione o Estado</option>
                         <% uf.forEach(item=> { %>
                             <option value="<%= item.id %>">
                                 <%= item.nome %>
@@ -26,11 +29,11 @@
                     </select>
                 </div>
 
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Continuar</button>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-primary btn-lg">Continuar</button>
                 </div>
-
             </form>
+            
         </div>
     </main>
     <footer>

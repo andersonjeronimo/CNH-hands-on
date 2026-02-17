@@ -81,7 +81,7 @@ async function filterCustomersPage(req: Request, res: Response, next: NextFuncti
 async function submitPage(req: Request, res: Response, next: NextFunction) {
     const customer = req.body as Customer;
     const result = await customerRepository.insertCustomer(customer);
-    res.render('pages/submit', { name: customer.name, result: result });
+    res.render('pages/submit', { name: customer.firstname, result: result });
 }
 
 async function aboutPage(req: Request, res: Response, next: NextFunction) {

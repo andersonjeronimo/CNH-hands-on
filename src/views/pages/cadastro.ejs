@@ -7,24 +7,53 @@
 
 <body class="container">
 
-    <header>
+    <!-- <header>
         <%- include('../partials/header'); %>
-    </header>
+    </header> -->
     <main>
         <div class="container">
+            <hr>
             <img src="/images/logo.png" class="img-fluid" alt="CNH na mao logo" width="50%">
-
+            <hr>
 
             <form action="/submit" method="POST" class="row g-3">
-                <div class="col-md-4">
+
+
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-5">
+                        <label for="city" class="form-label">Cidade</label>
+                        <select name="city" id="city" class="form-select" required>
+                            <option selected disabled value="">Selecione a cidade</option>
+                            <% cities.forEach(item=> { %>
+                                <option value="<%= item.nome %>">
+                                    <%= item.nome %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="email" class="form-label">Estado selecionado</label>
+                        <input class="form-control" type="text" name="state" id="state"
+                            value="<%= cities[0].microrregiao.mesorregiao.UF.nome %>"
+                            aria-label="<%= cities[0].microrregiao.mesorregiao.UF.nome %>" readonly>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="email" class="form-label">Alterar Estado Selecionado</label>
+                        <a class="btn btn-primary form-control" href="/pre_cadastro" role="button">Alterar Estado
+                            (UF)</a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
                     <label for="firstname" class="form-label">Nome</label>
                     <input type="text" class="form-control" name="firstname" id="firstname" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label for="lastname" class="form-label">Sobrenome</label>
                     <input type="text" class="form-control" name="lastname" id="lastname" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label for="email" class="form-label">Email</label>
                     <div class="input-group">
                         <span class="input-group-text" id="email">@</span>
@@ -33,21 +62,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label for="city" class="form-label">Cidade</label>
-                    <select name="city" id="city" class="form-select" required>
-                        <option selected disabled value="">Selecione a cidade</option>
-                        <% cities.forEach(item=> { %>
-                            <option value="<%= item.nome %>">
-                                <%= item.nome %>
-                            </option>
-                            <% }) %>
-                    </select>
-                </div>
 
-                <div class="col-md-6">
-                    <label for="phone" class="form-label">Whatsapp</label>
-                    <select name="phone" id="phone" class="form-select" required>
+                <div class="col-md-2">
+                    <label for="ddd" class="form-label">DDD</label>
+                    <select name="ddd" id="ddd" class="form-select" required>
                         <option selected disabled value="">DDD</option>
                         <% state.ddd.forEach((cod)=> { %>
                             <option value="<%= cod %>">
@@ -57,26 +75,118 @@
                     </select>
                 </div>
 
-                <div class="col-md-3">
-                    <label for="validationDefault05" class="form-label">Zip</label>
-                    <input type="text" class="form-control" id="validationDefault05" required>
+                <div class="col-md-4">
+                    <label for="phone" class="form-label">Celular</label>
+                    <input type="number" class="form-control" name="phone" id="phone" required>
                 </div>
-                <div class="col-12">
+
+                <div class="col-md-6">
+                    <label for="cpf" class="form-label">CPF</label>
+                    <input type="number" class="form-control" name="cpf" id="cpf" required>
+                </div>
+
+                <hr>
+
+                <div class="col-6">
+                    <label for="status" class="form-label">Status</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                        <label class="form-check-label" for="invalidCheck2">
-                            Agree to terms and conditions
+                        <input class="form-check-input" type="radio" value="<%= status.Ativo %>" name="status"
+                            id="status" checked>
+                        <label class="form-check-label" for="status">
+                            Ativo
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= status.Pausado %>" name="status"
+                            id="status" disabled>
+                        <label class="form-check-label" for="status">
+                            Pausado
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= status.Inativo %>" name="status"
+                            id="status" disabled>
+                        <label class="form-check-label" for="status">
+                            Inativo
                         </label>
                     </div>
                 </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Submit form</button>
+
+                <div class="col-6">
+                    <label for="category" class="form-label">Categoria</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= category.A %>" name="category"
+                            id="category" checked>
+                        <label class="form-check-label" for="category">
+                            "A" (Moto)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= category.B %>" name="category"
+                            id="category">
+                        <label class="form-check-label" for="category">
+                            "B" (Carro)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= category.AB %>" name="category"
+                            id="category">
+                        <label class="form-check-label" for="category">
+                            "A" e "B" (Carro e moto)
+                        </label>
+                    </div>
+                </div>                
+
+                <hr>
+
+                <div class="col-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= vehicle.Proprio %>" name="vehicle"
+                            id="vehicle" checked>
+                        <label class="form-check-label" for="vehicle">
+                            Veículo próprio
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= vehicle.Aluno %>" name="vehicle"
+                            id="vehicle">
+                        <label class="form-check-label" for="vehicle">
+                            Veículo do aluno
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= vehicle.Ambos %>" name="vehicle"
+                            id="vehicle">
+                        <label class="form-check-label" for="vehicle">
+                            Veículo próprio ou do aluno (a combinar)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-8">
+                    <label for="description" class="form-label">Descrição do veículo (opcional)</label>
+                    <textarea class="form-control" name="description" id="description" rows="4" placeholder="Informe tipo de câmbio, modelo, etc."></textarea>
+                </div>
+
+                <hr>
+
+                <!-- <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" name="agree" id="agree" required>
+                        <label class="form-check-label" for="agree">
+                            Li e concordo com os termos e condições
+                        </label>
+                    </div>
+                </div> -->
+
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-primary btn-lg" type="submit">Cadastrar Instrutor</button>
                 </div>
             </form>
 
-
         </div>
     </main>
+    <hr>
     <footer>
         <%- include('../partials/footer'); %>
     </footer>

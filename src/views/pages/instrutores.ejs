@@ -7,13 +7,16 @@
 
 <body class="container">
 
-    <header>
+    <!-- <header>
         <%- include('../partials/header'); %>
-    </header>
+    </header> -->
 
     <main>
 
-        <div class="container">           
+        <div class="container">     
+            <hr>
+            <img src="/images/logo-glass-2.png" class="img-fluid" alt="CNH na mao logo com lupa" width="50%">
+            <hr>
 
             <table class="table table-striped">
                 <thead>
@@ -33,13 +36,13 @@
                     <% items.forEach(item=> { %>
                         <tr>
                             <th scope="row">
-                                <%= item.name %>
+                                <%=  item.lastname%> , <%= item.firstname %>
                             </th>                            
                             <td>
                                 <%= item.email %>
                             </td>
                             <td>
-                                <%= item.phone %>
+                                (<%= item.ddd%>)<%=item.phone %>
                             </td>
                             <td>
                                 <%= item.cpf %>
