@@ -27,7 +27,7 @@ async function preRegisterPage(req: Request, res: Response, next: NextFunction) 
 
 async function registerPage(req: Request, res: Response, next: NextFunction) {
     const state_id = req.query.state;
-    const url = `${process.env.IBGE_ESTADOS}${state_id}/municipios?orderBy=nome`;
+    const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state_id}/municipios?orderBy=nome`;
     let data = fs.readFileSync(FILE_PATH, 'utf8');
     const states: any[] = JSON.parse(data);
     const state = states.find(item => String(item.id) === state_id);

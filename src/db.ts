@@ -20,3 +20,6 @@ export default connect;
 
 //Opcionalmente, você pode garantir que o MongoDB iniciará após reinicialização do sistema emitindo o seguinte comando:
 //sudo systemctl enable mongod
+
+//Deploy NodeJS App On AWS EC2 Instance with MongoDB Step by Step Guide 2026
+//https://www.youtube.com/watch?v=ILUwCMtmbXE
