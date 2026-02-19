@@ -2,10 +2,11 @@
   "name": "cnh-hands-on",
   "version": "1.0.0",
   "description": "API de acesso aos dados do cadastro de alunos e instrutores do APP \"CNH Na Mão\".",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "npx nodemon src/server.ts --watch 'src/' -e ts",
     "compile": "npx tsc",
+    "build": "tsc && cp -R src/public/ dist/",
     "start": "node ./dist/server.js"
   },
   "repository": {

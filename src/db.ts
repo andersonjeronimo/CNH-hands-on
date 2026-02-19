@@ -20,6 +20,3 @@ export default connect;
 
 //Opcionalmente, você pode garantir que o MongoDB iniciará após reinicialização do sistema emitindo o seguinte comando:
 //sudo systemctl enable mongod
-
-
-//https://cursos.luiztools.com.br/topico/02-consulta-via-node-js/

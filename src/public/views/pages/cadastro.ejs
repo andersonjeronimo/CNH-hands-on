@@ -13,10 +13,11 @@
     <main>
         <div class="container">
             <hr>
-            <img src="/images/logo-glass-2.png" class="img-fluid" alt="CNH na mao logo com lupa" width="50%">
+            <img src="/images/cadastro.png" class="img-fluid shadow bg-white rounded" width="60%"
+                alt="Imagem com vários instrutores de trânsito">
             <hr>
 
-            <form action="/filtro_instrutores" method="POST" class="row g-3">
+            <form action="/submit" method="POST" class="row g-3">
 
                 <div class="row g-3 align-items-center">
                     <div class="col-md-5">
@@ -38,8 +39,78 @@
                     </div>
                     <div class="col-md-2">
                         <label for="email" class="form-label">Alterar Estado Selecionado</label>
-                        <a class="btn btn-primary form-control" href="/pre_cadastro" role="button">Alterar Estado
+                        <a class="btn btn-primary form-control shadow" href="/pre_cadastro" role="button">Alterar Estado
                             (UF)</a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="firstname" class="form-label">Nome</label>
+                    <input type="text" class="form-control" name="firstname" id="firstname" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="lastname" class="form-label">Sobrenome</label>
+                    <input type="text" class="form-control" name="lastname" id="lastname" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="email">@</span>
+                        <input type="email" class="form-control" name="email" id="email" aria-describedby="email"
+                            required>
+                    </div>
+                </div>
+
+
+                <div class="col-md-1">
+                    <label for="ddd" class="form-label">DDD</label>
+                    <select name="ddd" id="ddd" class="form-select" required>
+                        <option selected disabled value="">DDD</option>
+                        <% state.ddd.forEach((cod)=> { %>
+                            <option value="<%= cod %>">
+                                <%= cod %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </div>
+
+                <div class="col-md-5">
+                    <label for="phone" class="form-label">Celular</label>
+                    <input type="number" class="form-control" name="phone" id="phone" min="900000000" max="999999999" 
+                    placeholder="Apenas números, sem DDD, pontos ou traços. Ex.: 982827878" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="cpf" class="form-label">CPF</label>
+                    <input type="number" class="form-control" name="cpf" id="cpf" min="10000000000" max="99999999999" 
+                    placeholder="Apenas números, sem pontos ou traços. Ex.: 23456756789" required>
+                </div>
+
+                <hr>
+
+                <div class="col-6">
+                    <label for="status" class="form-label">Status</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= status.Ativo %>" name="status"
+                            id="status" checked>
+                        <label class="form-check-label" for="status">
+                            Ativo
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= status.Pausado %>" name="status"
+                            id="status" disabled>
+                        <label class="form-check-label" for="status">
+                            Pausado
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="<%= status.Inativo %>" name="status"
+                            id="status" disabled>
+                        <label class="form-check-label" for="status">
+                            Inativo
+                        </label>
                     </div>
                 </div>
 
@@ -66,7 +137,7 @@
                             "A" e "B" (Carro e moto)
                         </label>
                     </div>
-                </div>                
+                </div>
 
                 <hr>
 
@@ -92,7 +163,13 @@
                             Veículo próprio ou do aluno (a combinar)
                         </label>
                     </div>
-                </div>                
+                </div>
+
+                <div class="col-8">
+                    <label for="description" class="form-label">Descrição do veículo (opcional)</label>
+                    <textarea class="form-control" name="description" id="description" rows="4"
+                        placeholder="Informe tipo de câmbio, modelo, etc."></textarea>
+                </div>
 
                 <hr>
 
@@ -106,7 +183,7 @@
                 </div> -->
 
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-success btn-lg" type="submit">Buscar Instrutor</button>
+                    <button class="btn btn-primary btn-lg shadow" type="submit">Cadastrar Instrutor</button>
                 </div>
             </form>
 

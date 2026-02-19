@@ -10,17 +10,18 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 const FILE_PATH = path.join(__dirname, '../public/utils/estados.json');
+const PAGES_PATH = path.join(__dirname, '../public/views/');
 
 async function homePage(req: Request, res: Response, next: NextFunction) {
-    res.render('pages/index');
+    res.render(`${PAGES_PATH}pages/index`);
 }
 
 async function preRegisterPage(req: Request, res: Response, next: NextFunction) {
     if (fs.existsSync(FILE_PATH)) {
         const states = fs.readFileSync(FILE_PATH, 'utf8');
-        res.render('pages/pre_cadastro', { titulo: 'Lista de Estados', uf: JSON.parse(states) });
+        res.render(`${PAGES_PATH}pages/pre_cadastro`, { titulo: 'Lista de Estados', uf: JSON.parse(states) });
     } else {
-        res.render('pages/pre_cadastro', { titulo: 'Lista de Estados', uf: [], ddd: [] });
+        res.render(`${PAGES_PATH}pages/pre_cadastro`, { titulo: 'Lista de Estados', uf: [], ddd: [] });
     }
 }
 
@@ -32,7 +33,7 @@ async function registerPage(req: Request, res: Response, next: NextFunction) {
     const state = states.find(item => String(item.id) === state_id);
     try {
         const response = await axios.get(url);
-        res.render('pages/cadastro', { state: state, cities: response.data, status: Status, vehicle: Vehicle, category: Category });
+        res.render(`${PAGES_PATH}pages/cadastro`, { state: state, cities: response.data, status: Status, vehicle: Vehicle, category: Category });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data from IBGE API');
@@ -42,9 +43,9 @@ async function registerPage(req: Request, res: Response, next: NextFunction) {
 async function preSearchPage(req: Request, res: Response, next: NextFunction) {
     if (fs.existsSync(FILE_PATH)) {
         const data = fs.readFileSync(FILE_PATH, 'utf8');
-        res.render('pages/pre_busca', { titulo: 'Lista de Estados', uf: JSON.parse(data) });
+        res.render(`${PAGES_PATH}pages/pre_busca`, { titulo: 'Lista de Estados', uf: JSON.parse(data) });
     } else {
-        res.render('pages/pre_busca', { titulo: 'Lista de Estados', uf: [] });
+        res.render(`${PAGES_PATH}pages/pre_busca`, { titulo: 'Lista de Estados', uf: [] });
     }
 }
 
@@ -53,7 +54,7 @@ async function searchPage(req: Request, res: Response, next: NextFunction) {
     const url = `${process.env.IBGE_ESTADOS}${state}/municipios?orderBy=nome`;
     try {
         const response = await axios.get(url);
-        res.render('pages/busca', { cities: response.data, status: Status, vehicle: Vehicle, category: Category });
+        res.render(`${PAGES_PATH}pages/busca`, { cities: response.data, status: Status, vehicle: Vehicle, category: Category });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data from IBGE API');
@@ -63,7 +64,7 @@ async function searchPage(req: Request, res: Response, next: NextFunction) {
 
 async function customersPage(req: Request, res: Response, next: NextFunction) {
     const customers = await customerRepository.findCustomers({})
-    res.render('pages/instrutores', { titulo: 'Lista de Instrutores Cadastrados', items: customers });
+    res.render(`${PAGES_PATH}pages/instrutores`, { titulo: 'Lista de Instrutores Cadastrados', items: customers });
 }
 
 async function filterCustomersPage(req: Request, res: Response, next: NextFunction) {
@@ -74,17 +75,17 @@ async function filterCustomersPage(req: Request, res: Response, next: NextFuncti
     }
 
     const customers = await customerRepository.findCustomers(filter)
-    res.render('pages/filtro_instrutores', { titulo: 'Lista de Instrutores por Critério de Busca', items: customers });
+    res.render(`${PAGES_PATH}pages/filtro_instrutores`, { titulo: 'Lista de Instrutores por Critério de Busca', items: customers });
 }
 
 async function submitPage(req: Request, res: Response, next: NextFunction) {
     const customer = req.body as Customer;
     const id = await customerRepository.insertCustomer(customer);
-    res.render('pages/submit', { customer: customer, result: id });
+    res.render(`${PAGES_PATH}pages/submit`, { customer: customer, result: id });
 }
 
 async function aboutPage(req: Request, res: Response, next: NextFunction) {
-    res.render('pages/about');
+    res.render(`${PAGES_PATH}pages/about`);
 }
 
 export default { homePage, preRegisterPage, registerPage, preSearchPage, searchPage, submitPage, customersPage, filterCustomersPage, aboutPage }
