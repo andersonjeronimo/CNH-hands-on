@@ -1,5 +1,5 @@
-//import dotenv from 'dotenv';
-//dotenv.config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import Customer from '../models/customer';
 import { MongoClient } from "mongodb";
@@ -9,9 +9,9 @@ import { Status } from "../public/utils/utils";
 
 //https://www.mongodb.com/pt-br/docs/drivers/node/current/crud/insert/
 
-const uri = "mongodb://127.0.0.1";
-const dbName = "cnh";
-const collectionName = "customers";
+const uri = `${process.env.URI}`;
+const dbName = `${process.env.DATABASE_NAME}`;
+const collectionName = `${process.env.COLLECTION_NAME}`;
 
 async function findCustomer(query: {}) {
     let document;

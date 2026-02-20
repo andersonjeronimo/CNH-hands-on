@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction, request } from 'express';
-import Customer from '../models/customer';
+//import Customer from '../models/customer';
 import customerRepository from '../repositories/customerRepository';
 
 /* async function getCustomer(req: Request, res: Response, next: NextFunction) {
