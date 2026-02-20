@@ -9,7 +9,8 @@ import { Status } from "../public/utils/utils";
 
 //https://www.mongodb.com/pt-br/docs/drivers/node/current/crud/insert/
 
-const uri = "mongodb://127.0.0.1";
+//const uri = "mongodb://127.0.0.1";
+const uri = "mongodb://0.0.0.0";
 const dbName = "cnh";
 const collectionName = "customers";
 
