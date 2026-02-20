@@ -51,7 +51,8 @@ async function preSearchPage(req: Request, res: Response, next: NextFunction) {
 
 async function searchPage(req: Request, res: Response, next: NextFunction) {
     const state = req.query.state;
-    const url = `${process.env.IBGE_ESTADOS}${state}/municipios?orderBy=nome`;
+    //const url = `${process.env.IBGE_ESTADOS}${state}/municipios?orderBy=nome`;
+    const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios?orderBy=nome`;
     try {
         const response = await axios.get(url);
         res.render(`${PAGES_PATH}pages/busca`, { cities: response.data, status: Status, vehicle: Vehicle, category: Category });
