@@ -25,7 +25,7 @@
                     <select name="state" id="state" class="form-select" required>
                         <option selected disabled value="">Selecione o Estado</option>
                         <% uf.forEach(item=> { %>
-                            <option value="<%= item.id %>">
+                            <option value="<%= item.nome %>">
                                 <%= item.nome %>
                             </option>
                             <% }) %>

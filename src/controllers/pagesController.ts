@@ -7,6 +7,8 @@ import customerRepository from '../repositories/customerRepository';
 import { Status, Vehicle, Category } from "../public/utils/utils";
 import axios from 'axios';
 
+import { cpf } from 'cpf-cnpj-validator';
+
 import fs from 'fs';
 import path from 'path';
 const FILE_PATH = path.join(__dirname, '../public/utils/estados.json');
@@ -25,20 +27,56 @@ async function preRegisterPage(req: Request, res: Response, next: NextFunction) 
     }
 }
 
-async function registerPage(req: Request, res: Response, next: NextFunction) {
-    const state_id = req.query.state;
-    const url = `${process.env.IBGE_ESTADOS}${state_id}/municipios?orderBy=nome`;
-    //const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state_id}/municipios?orderBy=nome`;
+async function registerPage(req: Request, res: Response, next: NextFunction) {    
+    let _customer = {} as Customer;
+
+    const state_name = req.query.state;
+    //const state_name = _customer.state;
     let data = fs.readFileSync(FILE_PATH, 'utf8');
     const states: any[] = JSON.parse(data);
-    const state = states.find(item => String(item.id) === state_id);
+    const state = states.find(item => String(item.nome) === state_name);    
+
+    const url = `${process.env.IBGE_ESTADOS}${state.id}/municipios?orderBy=nome`;
+    //const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state_id}/municipios?orderBy=nome`;    
+
     try {
-        const response = await axios.get(url);
-        res.render(`${PAGES_PATH}pages/cadastro`, { state: state, cities: response.data, status: Status, vehicle: Vehicle, category: Category });
+        let _message = "Preencha todos os campos obrigatórios.";
+        const response = await axios.get(url);        
+        res.render(`${PAGES_PATH}pages/cadastro`, { message: _message, customer: _customer, state: state, cities: response.data, status: Status, vehicle: Vehicle, category: Category });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data from IBGE API');
     }
+}
+
+async function submitPage(req: Request, res: Response, next: NextFunction) {
+    let customer = req.body as Customer; 
+
+    // verifica se é um número válido
+    const _cpf = customer.cpf;
+    if (cpf.isValid(_cpf)) {        
+        // formata o número gerado
+        customer.cpf = cpf.format(_cpf);
+        const id = await customerRepository.insertCustomer(customer);
+        res.render(`${PAGES_PATH}pages/submit`, { customer: customer, result: id });
+    }
+    else {        
+        let _message = `O CPF informado (${customer.cpf}) é inválido.`;
+        console.log(_message);
+        const state_name = customer.state;
+        let data = fs.readFileSync(FILE_PATH, 'utf8');
+        const states: any[] = JSON.parse(data);
+        const state = states.find(item => String(item.nome) === state_name);
+        const url = `${process.env.IBGE_ESTADOS}${state.id}/municipios?orderBy=nome`;
+        try {
+            const response = await axios.get(url);
+            console.log(response.data[0]);
+            res.render(`${PAGES_PATH}pages/cadastro`, { message: _message, customer: customer, state: state, cities: response.data, status: Status, vehicle: Vehicle, category: Category });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error fetching data from IBGE API');
+        }
+    }    
 }
 
 async function preSearchPage(req: Request, res: Response, next: NextFunction) {
@@ -78,12 +116,6 @@ async function filterCustomersPage(req: Request, res: Response, next: NextFuncti
 
     const customers = await customerRepository.findCustomers(filter)
     res.render(`${PAGES_PATH}pages/filtro_instrutores`, { titulo: 'Lista de Instrutores por Critério de Busca', items: customers });
-}
-
-async function submitPage(req: Request, res: Response, next: NextFunction) {
-    const customer = req.body as Customer;
-    const id = await customerRepository.insertCustomer(customer);
-    res.render(`${PAGES_PATH}pages/submit`, { customer: customer, result: id });
 }
 
 async function aboutPage(req: Request, res: Response, next: NextFunction) {

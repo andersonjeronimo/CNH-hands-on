@@ -14,9 +14,4 @@ router.post('/filtro_instrutores', pagesController.filterCustomersPage);
 router.post('/submit', pagesController.submitPage)
 router.get('/about', pagesController.aboutPage);
 
-//router.post('/', pagesController.postCustomer);
-//router.put('/:id', customerController.patchCustomer);
-//router.patch('/:id', customerController.patchCustomer);
-//router.delete('/:id', customerController.deleteCustomer);
-
 export default router;

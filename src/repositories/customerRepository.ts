@@ -13,8 +13,8 @@ const uri = `${process.env.URI}`;
 const dbName = `${process.env.DATABASE_NAME}`;
 const collectionName = `${process.env.COLLECTION_NAME}`;
 
-//const { MongoClient, ServerApiVersion } = require('mongodb');
-//const uri = "mongodb+srv://cnhnamao2026_db_user:m6AOUwpGgod6gaAy@clustercnhnamao.fihq2rs.mongodb.net/?appName=ClusterCnhNaMao";
+
+//Teste de conexão++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
     serverApi: {
@@ -35,12 +35,11 @@ async function run() {
         await client.close();
     }
 }
-
 run().catch(console.dir);
+//Teste de conexão++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 async function findCustomer(query: {}) {
-    let document;
-    //const client = new MongoClient(uri);
+    let document;    
     const client = new MongoClient(uri, {
         serverApi: {
             version: ServerApiVersion.v1,
@@ -59,8 +58,7 @@ async function findCustomer(query: {}) {
 }
 
 async function findCustomers(query: {}) {
-    let documents;
-    //const client = new MongoClient(uri);
+    let documents;    
     const client = new MongoClient(uri, {
         serverApi: {
             version: ServerApiVersion.v1,
@@ -79,8 +77,7 @@ async function findCustomers(query: {}) {
 }
 
 async function insertCustomer(doc: Customer) {
-    let document;
-    //const client = new MongoClient(uri);
+    let document;    
     const client = new MongoClient(uri, {
         serverApi: {
             version: ServerApiVersion.v1,
@@ -98,7 +95,7 @@ async function insertCustomer(doc: Customer) {
     return document.insertedId;
 }
 
-//Webhook Mercado Pago
+//Webhook Mercado Pago+++++++++++++++++++++++++++++++++++++++++++++
 async function updateCustomerStatus(cpf: string, event: string) {
     /* Eventos:
     ✅ subscription_created
@@ -123,8 +120,7 @@ async function updateCustomerStatus(cpf: string, event: string) {
             break;
     }
 
-    let document;
-    //const client = new MongoClient(uri);
+    let document;    
     const client = new MongoClient(uri, {
         serverApi: {
             version: ServerApiVersion.v1,
@@ -156,6 +152,7 @@ async function updateCustomerStatus(cpf: string, event: string) {
     }
 
 }
+//Webhook Mercado Pago+++++++++++++++++++++++++++++++++++++++++++++
 
 export default {
     findCustomer,
