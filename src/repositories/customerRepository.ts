@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import Customer from '../models/customer';
-import { MongoClient } from "mongodb";
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 //Webhook Mercado Pago
 import { Status } from "../public/utils/utils";
@@ -13,9 +13,41 @@ const uri = `${process.env.URI}`;
 const dbName = `${process.env.DATABASE_NAME}`;
 const collectionName = `${process.env.COLLECTION_NAME}`;
 
+//const { MongoClient, ServerApiVersion } = require('mongodb');
+//const uri = "mongodb+srv://cnhnamao2026_db_user:m6AOUwpGgod6gaAy@clustercnhnamao.fihq2rs.mongodb.net/?appName=ClusterCnhNaMao";
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    }
+});
+async function run() {
+    try {
+        // Connect the client to the server	(optional starting in v4.7)
+        await client.connect();
+        // Send a ping to confirm a successful connection
+        await client.db("admin").command({ ping: 1 });
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    } finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+    }
+}
+
+run().catch(console.dir);
+
 async function findCustomer(query: {}) {
     let document;
-    const client = new MongoClient(uri);
+    //const client = new MongoClient(uri);
+    const client = new MongoClient(uri, {
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        }
+    });
     try {
         const database = client.db(dbName);
         const collection = database.collection(collectionName);
@@ -28,7 +60,14 @@ async function findCustomer(query: {}) {
 
 async function findCustomers(query: {}) {
     let documents;
-    const client = new MongoClient(uri);
+    //const client = new MongoClient(uri);
+    const client = new MongoClient(uri, {
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        }
+    });
     try {
         const database = client.db(dbName);
         const collection = database.collection(collectionName);
@@ -41,7 +80,14 @@ async function findCustomers(query: {}) {
 
 async function insertCustomer(doc: Customer) {
     let document;
-    const client = new MongoClient(uri);
+    //const client = new MongoClient(uri);
+    const client = new MongoClient(uri, {
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        }
+    });
     try {
         const database = client.db(dbName);
         const customers = database.collection(collectionName);
@@ -78,7 +124,14 @@ async function updateCustomerStatus(cpf: string, event: string) {
     }
 
     let document;
-    const client = new MongoClient(uri);
+    //const client = new MongoClient(uri);
+    const client = new MongoClient(uri, {
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        }
+    });
     try {
         const database = client.db(dbName);
         const collection = database.collection(collectionName);
